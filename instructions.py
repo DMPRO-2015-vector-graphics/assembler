@@ -1,13 +1,40 @@
 class Instructions(object):
     instructions = {
-        'add': {
-            'opcode': '100000000'
+        'nop': {
+            'opcode': '000000'
         },
-        'scene': {
-            'opcode': '11000000'
+        'jmp': {
+            'opcode': '000001'
         },
         'mov': {
-            'opcode': '11100000'
+            'opcode': '000010'
+        },
+        'add': {
+            'opcode': '000011'
+        },
+        'lsl': {
+            'opcode': '000100'
+        },
+        'line': {
+            'opcode': '000101'
+        },
+        'bezquad': {
+            'opcode': '000110'
+        },
+        'bezqube': {
+            'opcode': '000111'
+        },
+        'ldr': {
+            'opcode': '001000'
+        },
+        'str': {
+            'opcode': '001001'
+        },
+        'ldrp': {
+            'opcode': '001010'
+        },
+        'strp': {
+            'opcode': '001011'
         }
     }
 

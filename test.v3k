@@ -1,5 +1,12 @@
-test
-natoehusna
-aoeutahoesuae
-uaoetuhsaoehu
-aoesuthaseou
+nop
+jmp lbl
+mov r1, #1234
+add r1, r1, r2
+lsl r1, r2, #5
+line r1, r2
+bezquad r1, r2, r3
+bezqube r1, r2, r3, r4
+ldr r1, #0x0007FFFF
+str r1, #0x0007FFFF
+ldrp #0x00000001
+strp #0x00000001
