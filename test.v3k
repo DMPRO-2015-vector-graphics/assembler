@@ -10,3 +10,4 @@ ldr r1, #0x0007FFFF
 str r1, #0x0007FFFF
 ldrp #0x00000001
 strp #0x00000001
+beq r1, r2, #10
