@@ -14,7 +14,7 @@ class Instructions(object):
         },
         'add': {
             'opcode': '000011',
-            'word_partition': [(0, 6), (1, 5), (2, 5), (3, 5)]
+            'word_partition': [(0, 6), (1, 5), (2, 5), (3, 5), (4, 11)]
         },
         'lsl': {
             'opcode': '000100',
@@ -30,7 +30,7 @@ class Instructions(object):
         },
         'bezqube': {
             'opcode': '000111',
-            'word_partition': [(0, 6), (1, 10), (2, 5), (3, 5), (4, 1)]
+            'word_partition': [(0, 6), (1, 10), (2, 5), (3, 5), (4, 6)]
         },
         'ldr': {
             'opcode': '001000',

@@ -31,8 +31,9 @@ def create_parse_tree_from_file(filename):
 def add_opcode_to_parse_tree(parse_tree):
     new_parse_tree = []
     for instruction in parse_tree:
-        opcode = Instructions.get_opcode(instruction[0])
-        instruction[0] = opcode
+        if not is_label(instruction[0]):
+            opcode = Instructions.get_opcode(instruction[0])
+            instruction[0] = opcode
 
         new_parse_tree.append(instruction)
 
@@ -51,15 +52,23 @@ def convert_decimal_to_binary(decimal_number):
     return string[2:]
 
 
-def convert_immediate_decimal_to_binary(parse_tree):
+def convert_immediate_decimal_to_binary(parse_tree, partition_tree):
     new_parse_tree = []
 
-    for instruction in parse_tree:
+    for i, instruction in enumerate(parse_tree):
         new_instruction = []
 
-        for word in instruction:
+        for j, word in enumerate(instruction):
             if is_immediate_value(word):
-                binary = convert_decimal_to_binary(word[1:])
+
+                # Convert hex numbers to decimal
+                if is_hex_number(word):
+                    integer = int(word[3:], 16)
+                else:
+                    integer = int(word[1:])
+
+                # Convert integer to 2s complement value
+                binary = integer_to_2s_complement(integer, partition_tree[i][j][1])
                 new_instruction.append(binary)
                 continue
 
@@ -118,9 +127,64 @@ def create_partition_tree(parse_tree):
 
     for instruction in parse_tree:
         instruction_name = instruction[0]
-        partition_tree.append(Instructions.get_word_partitioning(instruction_name))
+
+        if not is_label(instruction_name):
+            partition_tree.append(Instructions.get_word_partitioning(instruction_name))
 
     return partition_tree
+
+
+# Create label map
+# key = label name, value = address in binary
+#
+# returns parse_tree, label_map
+def create_label_map(parse_tree):
+    new_parse_tree = []
+    label_map = {}
+
+    number_of_labels = 0
+    for i, instruction in enumerate(parse_tree):
+        label = instruction[0]
+
+        if is_label(label):
+            # Remove . prefix on label names
+            label = label[1:]
+
+            label_map[label] = str(i - number_of_labels)
+            number_of_labels += 1
+            continue
+
+        new_parse_tree.append(instruction)
+
+    return new_parse_tree, label_map
+
+
+def change_label_with_address(parse_tree, label_map):
+    new_parse_tree = []
+
+    for instruction in parse_tree:
+        if len(instruction) == 2:
+            label_name = instruction[1]
+            if label_name in label_map:
+                instruction[1] = '#' + label_map[label_name]
+
+        new_parse_tree.append(instruction)
+
+    return new_parse_tree
+
+
+def concat_parse_tree(parse_tree):
+    instruction_words = []
+
+    for instruction in parse_tree:
+        word = ''
+
+        for partition in instruction:
+            word += partition
+
+        instruction_words.append(word)
+
+    return instruction_words
 
 
 def main():
@@ -130,17 +194,16 @@ def main():
     filename = sys.argv[1]
 
     parse_tree = create_parse_tree_from_file(filename)
+    parse_tree, label_map = create_label_map(parse_tree)
+    parse_tree = change_label_with_address(parse_tree, label_map)
     partition_tree = create_partition_tree(parse_tree)
-
-    for line in parse_tree:
-        print line
-
     parse_tree = add_opcode_to_parse_tree(parse_tree)
-
-    parse_tree = convert_immediate_decimal_to_binary(parse_tree)
+    parse_tree = convert_immediate_decimal_to_binary(parse_tree, partition_tree)
     parse_tree = convert_register_to_binary(parse_tree)
     parse_tree = add_missing_zeros(parse_tree, partition_tree)
+    instruction_words = concat_parse_tree(parse_tree)
 
-    for line in parse_tree:
-        print line
+    for instruction in instruction_words:
+        print instruction
+
 main()

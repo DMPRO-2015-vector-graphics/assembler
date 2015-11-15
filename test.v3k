@@ -1,6 +1,7 @@
 nop
-jmp lbl
+jmp label
 mov r1, #1234
+.label
 add r1, r1, r2
 lsl r1, r2, #5
 line r1, r2
