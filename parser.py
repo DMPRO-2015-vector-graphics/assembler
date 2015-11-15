@@ -2,12 +2,12 @@ import sys
 from file_helper import FileHelper
 from instructions import *
 from util import *
+from struct import pack
 
 
-def create_parse_tree_from_file(filename):
+def create_parse_tree_from_file(file_helper):
     # Open program file
     parse_tree = []
-    file_helper = FileHelper(filename)
     file_helper.open_program_file()
 
     line = file_helper.read_line()
@@ -187,23 +187,44 @@ def concat_parse_tree(parse_tree):
     return instruction_words
 
 
+def write_all_instructions_to_bit_file(instructions, file_helper):
+    file_helper.create_bit_file()
+
+    for instruction in instructions:
+
+        # Convert 8 bits to char and then write one char at a time
+        for i in xrange(0, 4):
+            char = chr(int(instruction[i*8:(i+1)*8], 2))
+            file_helper.write_data_to_binary_file(char)
+
+    file_helper.close_bit_file()
+
+
 def main():
     if len(sys.argv) < 2:
         print('Missing file to read')
         sys.exit(2)
     filename = sys.argv[1]
 
-    parse_tree = create_parse_tree_from_file(filename)
+    file_helper = FileHelper(filename)
+
+    parse_tree = create_parse_tree_from_file(file_helper)
     parse_tree, label_map = create_label_map(parse_tree)
     parse_tree = change_label_with_address(parse_tree, label_map)
+
     partition_tree = create_partition_tree(parse_tree)
+
     parse_tree = add_opcode_to_parse_tree(parse_tree)
     parse_tree = convert_immediate_decimal_to_binary(parse_tree, partition_tree)
     parse_tree = convert_register_to_binary(parse_tree)
     parse_tree = add_missing_zeros(parse_tree, partition_tree)
+    
     instruction_words = concat_parse_tree(parse_tree)
+
+    write_all_instructions_to_bit_file(instruction_words, file_helper)
 
     for instruction in instruction_words:
         print instruction
+
 
 main()

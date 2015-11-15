@@ -17,6 +17,9 @@ class FileHelper(object):
     def has_lines_left(self):
         return self.current_line != ''
 
+    def write_data_to_binary_file(self, data):
+        self.bit_file.write(data)
+
     def is_empty_line(self):
         return len(self.current_line) <= 1
 
