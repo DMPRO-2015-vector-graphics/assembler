@@ -203,6 +203,8 @@ def write_all_instructions_to_bit_file(instructions, file_helper):
 def main():
     if len(sys.argv) < 2:
         print('Missing file to read')
+        print('To use this script you must type:')
+        print('python parser.py file.v3k')
         sys.exit(2)
     filename = sys.argv[1]
 
@@ -218,13 +220,14 @@ def main():
     parse_tree = convert_immediate_decimal_to_binary(parse_tree, partition_tree)
     parse_tree = convert_register_to_binary(parse_tree)
     parse_tree = add_missing_zeros(parse_tree, partition_tree)
-    
+
     instruction_words = concat_parse_tree(parse_tree)
 
     write_all_instructions_to_bit_file(instruction_words, file_helper)
 
     for instruction in instruction_words:
-        print instruction
+        hex_representation = '%0*X' % ((len(instruction) + 3) // 4, int(instruction, 2))
+        print '0x' + hex_representation
 
 
 main()
