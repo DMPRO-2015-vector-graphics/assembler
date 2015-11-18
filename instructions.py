@@ -51,6 +51,14 @@ class Instructions(object):
         'beq': {
             'opcode': '001100',
             'word_partition': [(0, 6), (1, 5), (2, 5), (3, 16)]
+        },
+        'movu': {
+            'opcode': '001101',
+            'word_partition': [(0, 6), (1, 5), (2, 21)]
+        },
+        'movl': {
+            'opcode': '001110',
+            'word_partition': [(0, 6), (1, 5), (2, 21)]
         }
     }
 
