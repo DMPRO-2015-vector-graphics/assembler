@@ -166,7 +166,7 @@ def change_label_with_address(parse_tree, label_map):
         if len(instruction) == 2:
             label_name = instruction[1]
             if label_name in label_map:
-                instruction[1] = '#' + label_map[label_name]
+                instruction[1] = '#' + str(int(label_map[label_name])*4)
 
         new_parse_tree.append(instruction)
 

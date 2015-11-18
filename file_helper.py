@@ -8,7 +8,7 @@ class FileHelper(object):
         self.program_file = open(self.filename, 'r')
 
     def create_bit_file(self):
-        self.bit_file = open(self.filename + '.bit', 'wb')
+        self.bit_file = open(self.filename + '.out', 'wb')
 
     def read_line(self):
         self.current_line = self.program_file.readline()

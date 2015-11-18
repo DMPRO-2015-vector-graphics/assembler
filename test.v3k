@@ -1,14 +1,7 @@
-nop
-jmp label
-mov r1, #1234
-.label
-add r1, r1, r2
-lsl r1, r2, #5
+mov r1, #0
+movu r2, #-1
+movl r2, #-1
 line r1, r2
-bezquad r1, r2, r3
-bezqube r1, r2, r3, r4
-ldr r1, #0x0007FFFF
-str r1, #0x0007FFFF
-ldrp #0x00000001
-strp #0x00000001
-beq r1, r2, #10
+strp #0
+.end
+jmp end
