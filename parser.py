@@ -198,6 +198,34 @@ def write_all_instructions_to_bit_file(instructions, file_helper):
             file_helper.write_data_to_binary_file(char)
 
     file_helper.close_bit_file()
+    print('Created bit file')
+
+
+def create_coe_file(instruction_words, filename):
+    file = open(filename + '.coe', 'w')
+
+    file.write('MEMORY_INITIALIZATION_RADIX=2;\n')
+    file.write('MEMORY_INITIALIZATION_VECTOR=\n')
+
+    # Each instruction is 32 bits.
+    # Split each instruction into 16 bits and then write to file
+    for instruction in instruction_words:
+        first_part = instruction[0:16]
+        second_part = instruction[16:32]
+        file.write(first_part + ',\n')
+        file.write(second_part + ',\n')
+
+    if len(instruction_words) < 1024:
+        missing_lines = 1024 - len(instruction_words)
+        for i in range(0, missing_lines):
+            # The last line contains a semicolon
+            if i == (missing_lines - 1):
+                file.write('0000000000000000;\n')
+            else:
+                file.write('0000000000000000,\n')
+
+    file.close()
+    print('Created coe file')
 
 
 def main():
@@ -223,11 +251,11 @@ def main():
 
     instruction_words = concat_parse_tree(parse_tree)
 
-    write_all_instructions_to_bit_file(instruction_words, file_helper)
-
     for instruction in instruction_words:
         hex_representation = '%0*X' % ((len(instruction) + 3) // 4, int(instruction, 2))
         print '0x' + hex_representation
 
+    #write_all_instructions_to_bit_file(instruction_words, file_helper)
+    create_coe_file(instruction_words, filename)
 
 main()
