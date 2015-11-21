@@ -166,7 +166,7 @@ def change_label_with_address(parse_tree, label_map):
         if len(instruction) == 2:
             label_name = instruction[1]
             if label_name in label_map:
-                instruction[1] = '#' + str(int(label_map[label_name])*4)
+                instruction[1] = '#' + str(int(label_map[label_name])*2)
 
         new_parse_tree.append(instruction)
 
@@ -215,14 +215,7 @@ def create_coe_file(instruction_words, filename):
         file.write(first_part + ',\n')
         file.write(second_part + ',\n')
 
-    if len(instruction_words) < 1024:
-        missing_lines = 1024 - len(instruction_words)
-        for i in range(0, missing_lines):
-            # The last line contains a semicolon
-            if i == (missing_lines - 1):
-                file.write('0000000000000000;\n')
-            else:
-                file.write('0000000000000000,\n')
+    file.write('0000000000000000;\n')
 
     file.close()
     print('Created coe file')

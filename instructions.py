@@ -28,9 +28,9 @@ class Instructions(object):
             'opcode': '000110',
             'word_partition': [(0, 6), (1, 10), (2, 5), (3, 5), (4, 6)]
         },
-        'bezqube': {
+        'bezcube': {
             'opcode': '000111',
-            'word_partition': [(0, 6), (1, 10), (2, 5), (3, 5), (4, 6)]
+            'word_partition': [(0, 6), (1, 10), (2, 5), (3, 5), (4, 5), (5, 1)]
         },
         'ldr': {
             'opcode': '001000',
