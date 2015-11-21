@@ -215,14 +215,7 @@ def create_coe_file(instruction_words, filename):
         file.write(first_part + ',\n')
         file.write(second_part + ',\n')
 
-    if len(instruction_words) < 1024:
-        missing_lines = 1024 - len(instruction_words)
-        for i in range(0, missing_lines):
-            # The last line contains a semicolon
-            if i == (missing_lines - 1):
-                file.write('0000000000000000;\n')
-            else:
-                file.write('0000000000000000,\n')
+    file.write('0000000000000000;\n')
 
     file.close()
     print('Created coe file')
