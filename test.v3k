@@ -3,5 +3,31 @@ movu r2, #-1
 movl r2, #-1
 line r1, r2
 strp #0
-.end
-jmp end
+
+.loop
+movl r1, #-1
+movl r2, #0
+line r1, r2
+updp #0
+
+mov r5, #0
+movu r6, #1000
+movl r6, #-1
+.pause
+add r5, #1
+beq r5, r6, #2
+jmp pause
+
+mov r1, #0
+movu r2, #-1
+movl r2, #-1
+line r1, r2
+updp #0
+
+mov r5, #0
+.pause1
+add r5, #1
+beq r5, r6, #2
+jmp pause1
+
+jmp loop

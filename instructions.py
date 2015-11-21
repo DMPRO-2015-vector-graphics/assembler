@@ -59,6 +59,10 @@ class Instructions(object):
         'movl': {
             'opcode': '001110',
             'word_partition': [(0, 6), (1, 5), (2, 21)]
+        },
+        'updp': {
+            'opcode': '001111',
+            'word_partition': [(0, 6), (1, 26)]
         }
     }
 
