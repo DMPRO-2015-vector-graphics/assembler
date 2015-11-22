@@ -15,8 +15,8 @@ def create_parse_tree_from_file(file_helper):
         line = line.replace(',', '')
         instruction = line[:-1].split()
 
-        # Skip empty lines
-        if file_helper.is_empty_line():
+        # Skip empty lines and comments
+        if file_helper.is_empty_line() or instruction[0][0] == '#':
             line = file_helper.read_line()
             continue
 

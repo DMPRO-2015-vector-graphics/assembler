@@ -1,3 +1,4 @@
+# Comment test
 mov r1, #0
 movu r2, #-1
 movl r2, #-1
@@ -10,11 +11,12 @@ movl r2, #0
 line r1, r2
 updp #0
 
+mov r7, #1
 mov r5, #0
-movu r6, #1000
+movu r6, #32
 movl r6, #-1
 .pause
-add r5, #1
+add r5, r5, r7
 beq r5, r6, #2
 jmp pause
 
@@ -26,7 +28,7 @@ updp #0
 
 mov r5, #0
 .pause1
-add r5, #1
+add r5, r5, r7
 beq r5, r6, #2
 jmp pause1
 

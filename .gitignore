@@ -3,3 +3,7 @@
 
 # PyCharm project files
 .idea
+
+*.swo
+*.swp
+*.coe
