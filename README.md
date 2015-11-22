@@ -2,7 +2,7 @@
 To use the assembler type:
 
 `
-python parser.py program.v3k
+python assembler.py program.v3k
 `
 
 Where you have to change "program" to your filename. When the assembler is run, all the instruction is printed into the terminal.
